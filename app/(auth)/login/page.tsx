@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -13,6 +13,8 @@ import { login, LoginActionState } from '../actions';
 
 export default function Page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const verified = searchParams.get('verified');
 
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
@@ -25,15 +27,20 @@ export default function Page() {
   );
 
   useEffect(() => {
+    if (verified === 'true') {
+      toast.success('Email verificado com sucesso! Agora você pode fazer login.');
+    }
+
     if (state.status === 'failed') {
       toast.error('Invalid credentials!');
     } else if (state.status === 'invalid_data') {
       toast.error('Failed validating your submission!');
     } else if (state.status === 'success') {
       setIsSuccessful(true);
-      router.refresh();
+      toast.success('Logged in successfully');
+      router.push('/');
     }
-  }, [state.status, router]);
+  }, [state.status, router, verified]);
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get('email') as string);
@@ -60,6 +67,17 @@ export default function Page() {
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Use your email and password to sign in
             </p>
+            
+            {verified === 'true' && (
+              <div className="mt-2 p-3 bg-green-50 dark:bg-green-900/30 rounded-md text-sm text-green-700 dark:text-green-300">
+                <div className="flex items-center">
+                  <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Email verificado com sucesso!</span>
+                </div>
+              </div>
+            )}
           </div>
           <AuthForm action={handleSubmit} defaultEmail={email}>
             <SubmitButton isSuccessful={isSuccessful}>Sign in</SubmitButton>
