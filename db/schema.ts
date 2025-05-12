@@ -15,6 +15,7 @@ export const user = pgTable('User', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
   email: varchar('email', { length: 64 }).notNull(),
   password: varchar('password', { length: 64 }),
+  active: boolean('active').notNull().default(true),
 });
 
 export type User = InferSelectModel<typeof user>;
@@ -107,3 +108,15 @@ export const suggestion = pgTable(
 );
 
 export type Suggestion = InferSelectModel<typeof suggestion>;
+
+export const verificationToken = pgTable("VerificationToken", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  token: varchar("token", { length: 64 }).notNull(),
+  userId: uuid("user_id").notNull(),
+  email: varchar("email", { length: 64 }).notNull(),
+  expires: timestamp("expires").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  verified: varchar("verified", { length: 1 }).default("N"),
+});
+
+export type VerificationTokenT = InferSelectModel<typeof verificationToken>;
