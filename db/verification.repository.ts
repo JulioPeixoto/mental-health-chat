@@ -6,7 +6,7 @@ import crypto from 'crypto';
 
 import { VerificationTokenT, verificationToken} from './schema';
 import { logger } from '@/lib/logger';
-import  db  from '@/lib/drizzle/drizzle';
+import  db  from '@/db/db';
 import { user } from './schema';
 
 /**
