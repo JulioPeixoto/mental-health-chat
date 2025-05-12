@@ -3,19 +3,20 @@ import { cookies } from "next/headers";
 import { validateCsrfToken } from "@/lib/csrf";
 import { rateLimiter } from "@/middlewares/rate-limiter";
 import { logger } from "@/lib/logger";
-import { verifyToken, markTokenAsVerified, cleanupTokens } from "@/db/verification.repository";
+import { verifyToken, cleanupTokens, markTokenAsVerifiedAndActivateUser } from "@/db/verification.repository";
 
 /**
  * Handler para verificação de token por GET (link de email)
  */
 export async function GET(req: NextRequest) {
   // Aplicar rate limiting (max 5 tentativas por minuto)
+  logger.info("Tentativa de verificação de email via GET");
   const rateLimit = rateLimiter(req, {
     maxRequests: 5,
     windowMs: 60 * 1000,
     message: "Muitas tentativas de verificação. Tente novamente em 1 minuto."
   });
-  
+  logger.info("2");
   if (rateLimit) return rateLimit;
   
   try {
@@ -23,34 +24,39 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     const token = url.searchParams.get('token');
     const email = url.searchParams.get('email');
-    
+    logger.info("try 3");
+
     if (!token || !email) {
       logger.warn("Tentativa de verificação sem token ou email");
       // Redirecionar para a página de erro
       return NextResponse.redirect(new URL('/auth/error?error=invalid_params', req.url));
     }
-    
+    logger.info("4");
+
     // Verificar o token
     const { record: verificationData, alreadyVerified } = await verifyToken(token, email);
-    
+    logger.info("5");
+
     if (!verificationData) {
       logger.warn({ email }, "Tentativa de verificação com token inválido ou expirado via GET");
       // Redirecionar para a página de erro
       return NextResponse.redirect(new URL('/auth/error?error=invalid_token', req.url));
     }
-    
+    logger.info("6");
+
     // Se já foi verificado, redirecionar para login com sucesso
     if (alreadyVerified) {
       logger.info({ email }, "Email já foi verificado anteriormente via GET");
       return NextResponse.redirect(new URL('/login?verified=true', req.url));
     }
-    
-    // Marcar o token como verificado
-    await markTokenAsVerified(verificationData.id);
+    logger.info("7");
+
+    // Marcar o token como verificado e ativar o usuário
+    await markTokenAsVerifiedAndActivateUser(verificationData.id, verificationData.userId);
     await cleanupTokens(email, verificationData.id);
-    
     logger.info({ email }, "Email verificado com sucesso via GET");
     // Redirecionar para página de login com sucesso
+    logger.info("8");
     return NextResponse.redirect(new URL('/login?verified=true', req.url));
     
   } catch (error) {
@@ -113,8 +119,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, message: "Email já verificado" });
     }
     
-    // Marcar o token como verificado
-    await markTokenAsVerified(verificationData.id);
+    await markTokenAsVerifiedAndActivateUser(verificationData.id, verificationData.userId);
     await cleanupTokens(email, verificationData.id);
     
     logger.info({ email }, "Email verificado com sucesso via API");

@@ -7,6 +7,7 @@ import crypto from 'crypto';
 import { VerificationTokenT, verificationToken} from './schema';
 import { logger } from '@/lib/logger';
 import  db  from '@/lib/drizzle/drizzle';
+import { user } from './schema';
 
 /**
  * Gera um token de verificação para o usuário
@@ -76,21 +77,30 @@ export async function verifyToken(token: string, email: string): Promise<{ recor
             alreadyVerified 
         };
     } catch (error) {
-        logger.error('Erro ao verificar token:', { error });
+        logger.error({ error }, 'Erro ao verificar token:');
         throw error;
     }
 }
 
 /**
- * Marca um token como verificado
+ * Marca um token como verificado e ativa o usuário
  */
-export async function markTokenAsVerified(tokenId: string): Promise<void> {
+export async function markTokenAsVerifiedAndActivateUser(tokenId: string, userId: string): Promise<void> {
     try {
-        await db.update(verificationToken)
-            .set({ verified: 'S' })
-            .where(eq(verificationToken.id, tokenId));
+        // Transação para garantir que ambas as operações sejam concluídas ou falhem juntas
+        await db.transaction(async (tx) => {
+            // Marcar o token como verificado
+            await tx.update(verificationToken)
+                .set({ verified: 'S' })
+                .where(eq(verificationToken.id, tokenId));
+            
+            // Ativar o usuário
+            await tx.update(user)
+                .set({ active: true })
+                .where(eq(user.id, userId));
+        });
     } catch (error) {
-        logger.error('Erro ao marcar token como verificado:', { error });
+        logger.error('Erro ao marcar token como verificado e ativar usuário:', { error });
         throw error;
     }
 }

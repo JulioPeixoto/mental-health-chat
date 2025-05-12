@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   },
   // Adicione aqui em vez de dentro de experimental
   serverExternalPackages: ['pino', 'pino-pretty', 'thread-stream'],
+  // Desabilita a normalização de URL para ter mais controle no middleware
+  skipMiddlewareUrlNormalize: true,
   images: {
     remotePatterns: [
       {

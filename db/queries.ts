@@ -32,12 +32,12 @@ export async function getUser(email: string): Promise<Array<User>> {
   }
 }
 
-export async function createUser(email: string, password: string) {
+export async function createUser(email: string, password: string, active: boolean) {
   let salt = genSaltSync(10);
   let hash = hashSync(password, salt);
 
   try {
-    await db.insert(user).values({ email, password: hash });
+    await db.insert(user).values({ email, password: hash , active});
     // Retornar o usuário criado
     const [newUser] = await db.select().from(user).where(eq(user.email, email));
     return newUser;

@@ -11,7 +11,8 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   name,
   token,
 }) => {
-  const verificationUrl = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/verify?token=${token}&email=${encodeURIComponent(email)}`;
+  const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || 'http://localhost:3000';
+  const verificationUrl = `${baseUrl}/verify?token=${token}&email=${encodeURIComponent(email)}`;
   
   return (
     <div style={{ 
@@ -19,10 +20,10 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
       maxWidth: '600px',
       margin: '0 auto',
       padding: '20px',
-      backgroundColor: '#f9f9f9',
+      backgroundColor: '#f1f1f1',
       borderRadius: '8px'
     }}>
-      <h1 style={{ color: '#4F46E5', textAlign: 'center' }}>Bem-vindo ao Colisa, {name}!</h1>
+      <h1 style={{ color: '#4F46E5', textAlign: 'center' }}>Bem-vindo ao Mental Health, {name}!</h1>
       <p style={{ fontSize: '16px', lineHeight: '1.5', color: '#374151' }}>
         Obrigado por se cadastrar. Para começar a usar nossos serviços, precisamos confirmar seu endereço de e-mail.
       </p>

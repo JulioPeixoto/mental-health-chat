@@ -15,6 +15,7 @@ const authFormSchema = z.object({
 
 export interface LoginActionState {
   status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
+  message?: string;
 }
 
 export const login = async (
@@ -26,6 +27,12 @@ export const login = async (
       email: formData.get("email"),
       password: formData.get("password"),
     });
+
+    const [user] = await getUser(validatedData.email);
+    
+    if (!user || !user.active) {
+      return { status: "failed", message: "Verifique seu e-mail antes de fazer login" };
+    }
 
     await signIn("credentials", {
       email: validatedData.email,
@@ -70,13 +77,10 @@ export const register = async (
       return { status: "user_exists" } as RegisterActionState;
     } else {
       const name = formData.get("name")?.toString() || "";
-      const newUser = await createUser(validatedData.email, validatedData.password);
-      
-      // Gerar token de verificação e enviar email
+      const newUser = await createUser(validatedData.email, validatedData.password, false);
       if (newUser && newUser.id) {
         const token = await createVerificationToken(newUser.id, validatedData.email);
         await sendTokenEmail(validatedData.email, name, token);
-        
         return { status: "verification_sent" };
       }
 

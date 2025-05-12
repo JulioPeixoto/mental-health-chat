@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "gm": "drizzle-kit generate",
-    "migrate": "ts-node --project tsconfig.node.json app/db/migrate.ts"
+    "migrate": "tsx db/migrate.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "1.3.6",
