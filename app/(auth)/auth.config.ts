@@ -39,7 +39,7 @@ export const authConfig = {
       if (isPublicRoute) {
         return true;
       }
-      
+
       // Permitir acesso a todas as outras rotas apenas se estiver logado
       return isLoggedIn;
     },

@@ -6,11 +6,7 @@ interface EmailTemplateProps {
     token: string;
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
-  email,
-  name,
-  token,
-}) => {
+export function EmailTemplate({ email, name, token }: Readonly<EmailTemplateProps>) {
   const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || 'http://localhost:3000';
   const verificationUrl = `${baseUrl}/verify?token=${token}&email=${encodeURIComponent(email)}`;
   
@@ -51,4 +47,4 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
       </p>
     </div>
   );
-};
+}

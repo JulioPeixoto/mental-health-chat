@@ -96,25 +96,25 @@ export default function Page() {
             </div>
           ) : (
             <>
-              <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
-                <h3 className="text-xl font-semibold text-zinc-800 dark:text-zinc-50">Sign Up</h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Create an account with your email and password
-                </p>
-              </div>
-              <AuthForm action={handleSubmit} defaultEmail={email}>
+          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
+            <h3 className="text-xl font-semibold text-zinc-800 dark:text-zinc-50">Sign Up</h3>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              Create an account with your email and password
+            </p>
+          </div>
+          <AuthForm action={handleSubmit} defaultEmail={email}>
                 <SubmitButton isSubmitting={isSubmitting} isSuccessful={isSuccessful}>Sign Up</SubmitButton>
-                <p className="text-center text-sm text-zinc-600 mt-4 dark:text-zinc-400">
-                  {'Already have an account? '}
-                  <Link
-                    href="/login"
-                    className="font-semibold text-zinc-800 hover:underline dark:text-zinc-200"
-                  >
-                    Sign in
-                  </Link>
-                  {' instead.'}
-                </p>
-              </AuthForm>
+            <p className="text-center text-sm text-zinc-600 mt-4 dark:text-zinc-400">
+              {'Already have an account? '}
+              <Link
+                href="/login"
+                className="font-semibold text-zinc-800 hover:underline dark:text-zinc-200"
+              >
+                Sign in
+              </Link>
+              {' instead.'}
+            </p>
+          </AuthForm>
             </>
           )}
         </div>

@@ -8,7 +8,7 @@ export async function sendTokenEmail(email: string, name: string, token: string)
       from: 'Colisa <notifications@resend.dev>',
       to: email,
       subject: 'Verificação de E-mail - Colisa',
-      react: EmailTemplate({ email, name, token }),
+      react: (EmailTemplate({ email, name, token }) as React.ReactNode),
     });
     
     return { success: !error, data, error };
