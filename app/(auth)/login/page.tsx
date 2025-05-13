@@ -59,7 +59,7 @@ function LoginForm() {
         {verified === 'true' && (
           <div className="mt-2 p-3 bg-green-50 dark:bg-green-900/30 rounded-md text-sm text-green-700 dark:text-green-300">
             <div className="flex items-center">
-              <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="size-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
               <span>Email verificado com sucesso!</span>
