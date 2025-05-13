@@ -95,8 +95,12 @@
 }
 
 @layer base {
-  *, ::before, ::after {
-    border-color: hsl(var(--border));
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 
   @font-face {
