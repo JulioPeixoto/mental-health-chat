@@ -9,6 +9,7 @@
   "plugins": ["import", "tailwindcss"],
   "rules": {
     "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/enforces-shorthand": "off",
     "tailwindcss/classnames-order": "off",
     "import/order": [
       "error",
