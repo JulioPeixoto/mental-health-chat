@@ -1,5 +1,5 @@
-import { resendClient } from './resend.config';
 import { EmailTemplate } from './email-template';
+import { resendClient } from './resend.config';
 import { logger } from '../logger';
     
 export async function sendTokenEmail(email: string, name: string, token: string) {

@@ -1,4 +1,4 @@
-import pino from 'pino';
+import pinoDefault  from 'pino';
 
 const transport = 
   process.env.NODE_ENV === 'development' 
@@ -11,7 +11,7 @@ const transport =
       }
     : undefined;
 
-export const logger = pino({
+export const logger = pinoDefault({
   level: process.env.NODE_ENV === 'development' ? 'debug' : 'info',
   browser: {
     write: {

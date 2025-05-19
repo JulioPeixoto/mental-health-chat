@@ -1,9 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+
+import {
+  cleanupTokens,
+  markTokenAsVerifiedAndActivateUser,
+  verifyToken
+} from "@/db/verification.repository";
 import { validateCsrfToken } from "@/lib/csrf";
-import { rateLimiter } from "@/middlewares/rate-limiter";
 import { logger } from "@/lib/logger";
-import { verifyToken, cleanupTokens, markTokenAsVerifiedAndActivateUser } from "@/db/verification.repository";
+import { rateLimiter } from "@/middlewares/rate-limiter";
 
 /**
  * Handler para verificação de token por GET (link de email)

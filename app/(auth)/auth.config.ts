@@ -1,4 +1,5 @@
 import { NextAuthConfig } from 'next-auth';
+
 import { publicRoutes, authRoutes, defaultLoginRedirect } from '@/lib/routes';
 
 export const authConfig = {
