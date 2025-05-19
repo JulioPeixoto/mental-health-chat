@@ -66,8 +66,8 @@ export default function Page() {
         <div className="w-full max-w-md overflow-hidden rounded-2xl gap-12 flex flex-col bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm p-8 z-10 shadow-lg">
           {state.status === 'verification_sent' ? (
             <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
-              <div className="mx-auto w-16 h-16 mb-6 flex items-center justify-center rounded-full bg-green-100">
-                <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <div className="mx-auto size-16 mb-6 flex items-center justify-center rounded-full bg-green-100">
+                <svg className="size-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                 </svg>
               </div>
