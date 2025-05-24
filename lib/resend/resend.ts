@@ -5,9 +5,9 @@ import { logger } from '../logger';
 export async function sendTokenEmail(email: string, name: string, token: string) {
   try {
     const { data, error } = await resendClient.emails.send({
-      from: 'Colisa <notifications@resend.dev>',
+      from: 'Mental Health <notifications@resend.dev>',
       to: email,
-      subject: 'Verificação de E-mail - Colisa',
+      subject: 'Verificação de E-mail - Mental Health',
       react: (EmailTemplate({ email, name, token }) as React.ReactNode),
     });
     
